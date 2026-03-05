@@ -1,0 +1,32 @@
+import turtle
+
+window = turtle.Screen()
+
+raffaello = turtle.Turtle()
+raffaello.color('red')
+
+for i in [0,1,2,3]:          #python è zero based, il primo indice è sempre 0 , posso usare anche range con valore iniziale, la lunghezza e lo step range(0,4,1) useremo range(4) con solo lunghezza
+ raffaello.forward(50)
+ raffaello.left(90)
+ 
+for i in ['a','b','c','d']:
+  print(i)
+  raffaello.forward(50)
+  raffaello.left(90)
+  
+for i in range(0,4,1):
+  print(i)
+  raffaello.forward(50)
+  raffaello.left(90)
+  
+print('casa' == 'ciao')
+
+
+  
+#donatello = turtle.Turtle()
+#donatello.color('violet')
+#donatello.forward(100)
+#donatello.right(90)
+#donatello.forward(50)
+
+window.mainloop()
