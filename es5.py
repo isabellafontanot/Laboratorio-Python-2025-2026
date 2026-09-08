@@ -5,39 +5,39 @@ import time
 
 def stessa_diagonale(x0, y0, x1, y1):
     """Ritorna Vero se le posizioni (x0, y0) e (x1, y1) sono sulla stessa diagonale"""
-    dy = abs(y1 - y0)  # distanza lungo y
-    dx = abs(x1 - x0)  # distanza lungo x
-    return dx == dy
+    dy = abs(y1 - y0)  # distanza lungo y (righe)
+    dx = abs(x1 - x0)  # distanza lungo x (colonne)
+    return dx == dy #se lo scarto orizz e vert sono uguali significa che le due regine sono in due posizioni della stessa diagonale
 
 def incrocia_colonne(posizioni, col):
-    """Ritorna Vero se la regina nella colonna 'col' (ultima colonna) incrocia la diagonale
+    """Ritorna Vero se la regina nella colonna 'col' (ultima colonna posizionata) incrocia la diagonale
     di una delle regine nelle colonne precedenti."""
     # Controllo tutte le precedenti fino a questa 'col'
-    for c in range(col):
+    for c in range(col): #c sarebbe la colonna della regina precedente
         # x è la colonna (c), y è la riga (posizioni[c])
-        if stessa_diagonale(c, posizioni[c], col, posizioni[col]):
+        if stessa_diagonale(c, posizioni[c], col, posizioni[col]): #applico la fz per calcolare lo scarto tra tutte le colonne precedenti e la colonna che stiamo considerando
             return True  # Si scontrano!
-    return False
+    return False #Se il ciclo for è finito, abbiamo controllato tt le colonne precedenti e non abbiamo mai trovato uno scontro allora posso dire non c'è nessun incrocio, posizione sicura
 
-soluzioni_valide = []
+soluzioni_valide = [] #inizializzo lista vuota
 tentativi = 0
-tempo_inizio = time.time()
+tempo_inizio = time.time() #Salviamo l'ora esatta di inizio del calcolo. Alla fine sottraremo questo numero dal tempo finale per calcolare la durata totale delle operazioni.
 
-# Genero le mosse, ognuna è una lista di 8 numeri
-for mossa in itertools.permutations(range(8)):
+# Genero le mosse, ognuna è una lista di 8 numeri, una permutazione
+for mossa in itertools.permutations(range(8)): #genera i numeri da 0 a 7 (che rappresentano le 8 righe della scacchiera).
     tentativi = tentativi + 1
     
     # Verifico se questa mossa è valida
-    valida = True
+    valida = True #ipotizzo sia valida la scacchiera
     # Controlliamo tutte le colonne dalla seconda (1) fino all'ottava (7)
     for colonna in range(1, 8):
-        if incrocia_colonne(mossa, colonna):
+        if incrocia_colonne(mossa, colonna):#controllo tra la disposizione della mossa e la colonna che sto considerando
             valida = False # Se incrocia, questa mossa non è buona
-            break          # Inutile controllare le altre colonne, saltiamo oltre
+            break          # Inutile controllare le altre colonne, saltiamo oltre alla prox permutazione
             
-    # Se la mossa ha superato tutti i controlli ed è valida...
+    # Se la mossa ha superato tutti i controlli ed è valida:
     if valida == True:
-        soluzioni_valide.append(mossa) # La salvo
+        soluzioni_valide.append(mossa) # La salvo, perchè non ci sono scontri in diagonale
         
         # Se abbiamo raggiunto le 10 soluzioni richieste, ci fermiamo
         if len(soluzioni_valide) == 10:
@@ -46,7 +46,7 @@ for mossa in itertools.permutations(range(8)):
 tempo_fine = time.time()
 
 tempo_totale = tempo_fine - tempo_inizio
-tempo_medio = tempo_totale / 10
+tempo_medio = tempo_totale / 10 #per ottenere il tempo medio che serve x trovare singola soluzione
 
 print("Ho trovato le 10 soluzioni")
 print("Tentativi totali fatti dal programma:", tentativi)
